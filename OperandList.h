@@ -1,15 +1,17 @@
 #ifndef INC_1ST_PROJECT___CALCULATOR_OPERANDLIST_H
 #define INC_1ST_PROJECT___CALCULATOR_OPERANDLIST_H
-class OperandList{
+
+class OperandList {
 private:
-    struct Node{
+    struct Node {
         int value;
-        Node* nextNode;
+        Node *nextNode;
     };
-    Node* head;
-    Node* tail;
+    Node *head;
+    Node *tail;
+    int size;
 public:
-    OperandList(): head(nullptr), tail(nullptr){
+    OperandList() : head(nullptr), tail(nullptr), size(0) {
 
     };
 
@@ -19,6 +21,9 @@ public:
 
     void remove_front();
 
+    int get_size();
+
     ~OperandList();
 };
+
 #endif

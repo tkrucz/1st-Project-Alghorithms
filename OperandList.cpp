@@ -10,6 +10,7 @@ void OperandList::push_front(int newValue) {
     Node *previousNode = head;
     head = newNode;
     newNode->nextNode = previousNode;
+    size += 1;
 }
 
 int OperandList::get_front() {
@@ -25,8 +26,13 @@ void OperandList::remove_front() {
     if (head != nullptr) {
         Node *tmp = head;
         head = head->nextNode;
+        size -= 1;
         delete tmp;
     }
+}
+
+int OperandList::get_size() {
+    return size;
 }
 
 OperandList::~OperandList() {

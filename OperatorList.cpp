@@ -10,6 +10,7 @@ void OperatorList::push_front(char newValue) {
     Node *previousNode = head;
     head = newNode;
     newNode->nextNode = previousNode;
+    size += 1;
 }
 
 int OperatorList::get_front() {
@@ -25,8 +26,13 @@ void OperatorList::remove_front() {
     if (head != nullptr) {
         Node *tmp = head;
         head = head->nextNode;
+        size -= 1;
         delete tmp;
     }
+}
+
+int OperatorList::get_size() {
+    return size;
 }
 
 OperatorList::~OperatorList() {
