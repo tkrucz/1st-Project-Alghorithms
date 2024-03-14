@@ -4,18 +4,41 @@
 #include "OperandList.h"
 #include "Define.cpp"
 
-void whichList(char ch, OperatorList &Operators, OperandList &Operands) {
-    // If the character is a digit, add it to the OperandList
+void whatOperator(char ch) {
+    OperatorList Operators;
+    OperandList Operands;
+    char op;
+    if (ch == CLOSE_BRACKET) {
+        Operators.remove_front();
+        op = Operators.get_front();
+        Operators.remove_front();
+    }
+    else if(ch == NEGATION)
+    {
+        
+    }
+}
+
+void whatOperation(char op) {
+    if (op == PLUS) {
+
+    } else if (op == MINUS) {
+
+    } else if (op == MULTIPLICATION) {
+
+    } else if (op == DIVISION) {
+
+    }
+}
+
+void whichList(char ch) {
+    OperatorList Operators;
+    OperandList Operands;
     if (ch >= '0' && ch <= '9') {
         Operands.push_front(int(ch));
-    }
-        // If the character is an operator or parentheses, add it to the OperatorList
-    else if (ch == PLUS || ch == MINUS || ch == MULTIPLICATION || ch == DIVISION
-             || ch == NEGATION || ch == OPEN_BRACKET || ch == CLOSE_BRACKET) {
+    } else if (ch == PLUS || ch == MINUS || ch == MULTIPLICATION || ch == DIVISION
+               || ch == NEGATION || ch == OPEN_BRACKET || ch == CLOSE_BRACKET) {
         Operators.push_front(ch);
-    }
-        // If the character is a space or comma, print a space
-    else if (ch == SPACE || ch == COMMA) {
-        std::cout << " ";
+        whatOperator(ch);
     }
 }

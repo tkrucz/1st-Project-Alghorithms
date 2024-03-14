@@ -1,23 +1,22 @@
 #include "iostream"
 #include "Define.cpp"
 #include "GeneralFunctions.h"
-#include "OperandList.h"
-#include "OperatorList.h"
+
 using namespace std;
 
 int main() {
-    char a = PLUS;
-    cout << a << endl;
+    //FOR TEST
+    char a = PLUS, b = '+';
+    cout << a << ", " << b << endl;
 
+    //MAIN CODE
     int n; //number of formulas
     cin >> n;
 
     for (int i = 0; i < n; i++) {
-         OperatorList operators;
-        OperandList operands;
         char ch;
         while ((ch = (char) getchar()) != DOT) {
-            whichList(ch,operators,operands);
+            whichList(ch);
         }
     }
     return 0;
