@@ -12,17 +12,17 @@ void whatOperator(char ch) {
     }
 }
 
-void whatOperation(char op, List<int> &stack) {
+void whatOperation(char ch, List<int> &stack) {
     int left, right;
     left = stack.remove_front();
     right = stack.remove_front();
-    if (op == PLUS) {
-        stack.push_front(addition(left,right));
-    } else if (op == MINUS) {
+    if (ch == PLUS) {
+        stack.push_front(addition(left, right));
+    } else if (ch == MINUS) {
         stack.push_front(subtraction(left, right));
-    } else if (op == MULTIPLICATION) {
+    } else if (ch == MULTIPLICATION) {
         stack.push_front(multiplication(left, right));
-    } else if (op == DIVISION) {
+    } else if (ch == DIVISION) {
         stack.push_front(division(left, right));
     }
 }
@@ -41,6 +41,10 @@ int multiplication(int left, int right) {
 
 int division(int left, int right) {
     return right / left;
+}
+
+int negation(int left) {
+    return -1 * left;
 }
 
 void whichList(char ch) {

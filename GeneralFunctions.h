@@ -4,7 +4,7 @@
 
 void whatOperator(char ch);
 
-void whatOperation(char op, List<int>& stack);
+void whatOperation(char ch, List<int>& stack);
 
 int addition(int left, int right);
 
@@ -14,6 +14,6 @@ int multiplication(int left, int right);
 
 int division(int left, int right);
 
-void whichList(char ch); //UNNECESSARY?
+void whichList(char ch); //RIGHT NOW UNNECESSARY
 
 #endif

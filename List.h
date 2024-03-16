@@ -13,7 +13,6 @@ private:
     int size;
 public:
     List() : head(nullptr), tail(nullptr), size(0) {
-
     };
 
     T &get_front() {

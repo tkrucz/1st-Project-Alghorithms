@@ -7,8 +7,8 @@ using namespace std;
 
 int main() {
 
-    List<int> stack;
-    List<Equation> equation;
+    List<int> stack; //List for numbers
+    List<Equation> equation; //List for postfix equation values
 
     equation.push_back({4, '0', true});
     equation.push_back({4, '0', true});
@@ -23,8 +23,8 @@ int main() {
         if (tmp.isNumber)
             stack.push_front(tmp.nbr);
         else {
-            char op = tmp.func;
-            whatOperation(op, stack);
+            char ch = tmp.func;
+            whatOperation(ch, stack);
         }
     }
     cout<<stack.remove_front();
