@@ -9,3 +9,9 @@
 #define DOT 46
 #define DIVISION 47
 #define NEGATION 78
+
+struct Equation{
+    int nbr;
+    char func;
+    bool isNumber;
+};
