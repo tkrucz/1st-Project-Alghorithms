@@ -1,16 +1,5 @@
 #include "iostream"
 #include "GeneralFunctions.h"
-#include "List.h"
-#include "Define.cpp"
-
-void whatOperator(char ch) {
-
-    if (ch == CLOSE_BRACKET) {
-
-    } else if (ch == NEGATION) {
-
-    }
-}
 
 void whatOperation(char ch, List<int> &stack) {
     int left, right;
@@ -47,15 +36,62 @@ int negation(int left) {
     return -1 * left;
 }
 
-void whichList(char ch) {
-    List<char> Operators;
-    List<int> Operands;
+bool checkFunc(char ch) {
+    if (ch == PLUS || ch == MINUS || ch == MULTIPLICATION || ch == DIVISION
+        || ch == NEGATION || ch == OPEN_BRACKET || ch == CLOSE_BRACKET)
+        return true;
+    else return false;
+}
 
-    if (ch >= '0' && ch <= '9') {
-        Operands.push_front(int(ch));
-    } else if (ch == PLUS || ch == MINUS || ch == MULTIPLICATION || ch == DIVISION
-               || ch == NEGATION || ch == OPEN_BRACKET || ch == CLOSE_BRACKET) {
-        Operators.push_front(ch);
-        whatOperator(ch); //IN THE FUTURE
+void checkChPriority(char ch, int &chPri) {
+    chPri = 0;
+    if (ch == NEGATION)
+        chPri = MAX_PRIORITY;
+    else if (ch == MULTIPLICATION || ch == DIVISION)
+        chPri = MIDDLE_PRIORITY;
+    else
+        chPri = LOW_PRIORITY;
+}
+
+void checkTopPriority(List<char> &func, int &topPri) {
+    char top = func.getValue();
+    topPri = 0;
+    if (top == NEGATION)
+        topPri = MAX_PRIORITY;
+    else if (top == MULTIPLICATION || top == DIVISION)
+        topPri = MIDDLE_PRIORITY;
+    else
+        topPri = LOW_PRIORITY;
+}
+
+void checkPriority(char ch, List<Equation> &equation, List<char> &func, int &chPri, int &topPri) {
+    checkChPriority(ch, chPri);
+    checkTopPriority(func, topPri);
+    while (chPri < topPri || chPri == topPri) {
+        char tmp = func.remove_front();
+        equation.push_back({0, tmp, false});
+        if (func.getSize() == 0)
+            break;
+        checkTopPriority(func, topPri);
+    }
+    func.push_front(ch);
+}
+
+void whichList(char ch, List<Equation> &equation, List<char> &func, int &chPri, int &topPri, int &finalNumber) {
+    if ((ch >= '0' && ch <= '9') || ch == SPACE) {
+        if (ch != SPACE) {
+            int digit;
+            digit = ch - '0';
+            finalNumber = finalNumber * 10 + digit;
+        } else {
+            if ( finalNumber >= 0)
+                equation.push_back({finalNumber, '0', true});
+            finalNumber = 0;
+        }
+    } else if (checkFunc(ch)) {
+        if (func.getSize() == 0)
+            func.push_front(ch);
+        else
+            checkPriority(ch, equation, func, chPri, topPri);
     }
 }

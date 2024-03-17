@@ -1,4 +1,7 @@
 #pragma once
+#define MAX_PRIORITY 3
+#define MIDDLE_PRIORITY 2
+#define LOW_PRIORITY 1
 #define SPACE 32
 #define OPEN_BRACKET 40
 #define CLOSE_BRACKET 41

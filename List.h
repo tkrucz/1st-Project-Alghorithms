@@ -63,13 +63,24 @@ public:
         return size;
     }
 
-    ~List() {
+    T getValue() {
+        T ret;
+        Node *tmp = head;
+        ret = tmp->value;
+        return ret;
+    }
+
+    void clear() {
         Node *current = head;
         while (current != nullptr) {
             Node *next = current->nextNode;
             delete current;
             current = next;
         }
+    }
+
+    ~List() {
+        clear();
     }
 };
 
