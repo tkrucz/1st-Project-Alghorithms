@@ -1,8 +1,21 @@
 #include "iostream"
 #include "GeneralFunctions.h"
 
+using namespace std;
+
+void printing(List<int> &stack) {
+    for (int item: stack) {
+        cout << item << ' ';
+    }
+    cout << endl;
+}
+
 void whatOperation(char ch, List<int> &stack) {
     int left, right;
+
+    cout << ch << ' ';
+    printing(stack);
+
     left = stack.remove_front();
     right = stack.remove_front();
     if (ch == PLUS) {
@@ -77,16 +90,19 @@ void checkPriority(char ch, List<Equation> &equation, List<char> &func, int &chP
     func.push_front(ch);
 }
 
-void whichList(char ch, List<Equation> &equation, List<char> &func, int &chPri, int &topPri, int &finalNumber) {
+void whichList(char ch, List<Equation> &equation, List<char> &func, int &chPri, int &topPri, int &finalNumber,
+               bool &wasDigit) {
     if ((ch >= '0' && ch <= '9') || ch == SPACE) {
         if (ch != SPACE) {
             int digit;
             digit = ch - '0';
             finalNumber = finalNumber * 10 + digit;
+            wasDigit = true;
         } else {
-            if ( finalNumber >= 0)
+            if (finalNumber >= 0 && wasDigit)
                 equation.push_back({finalNumber, '0', true});
             finalNumber = 0;
+            wasDigit = false;
         }
     } else if (checkFunc(ch)) {
         if (func.getSize() == 0)

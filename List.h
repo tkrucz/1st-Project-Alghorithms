@@ -12,6 +12,39 @@ private:
     Node *tail;
     int size;
 public:
+    // Nested iterator class
+    class Iterator {
+    private:
+        Node *currentNode;
+
+    public:
+        Iterator(Node *node) : currentNode(node) {}
+
+        // Overloaded operators for iterator traversal
+        Iterator &operator++() {
+            currentNode = currentNode->nextNode;
+            return *this;
+        }
+
+        T &operator*() const {
+            return currentNode->value;
+        }
+
+        bool operator!=(const Iterator &other) const {
+            return currentNode != other.currentNode;
+        }
+    };
+
+    // Get iterator to beginning of the list
+    Iterator begin() {
+        return Iterator(head);
+    }
+
+    // Get iterator to end of the list
+    Iterator end() {
+        return Iterator(nullptr);
+    }
+
     List() : head(nullptr), tail(nullptr), size(0) {
     };
 
