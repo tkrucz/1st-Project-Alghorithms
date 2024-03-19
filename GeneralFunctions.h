@@ -6,7 +6,7 @@
 
 void printing(List <int> &stack);
 
-void whatOperation(char ch, List<int> &stack);
+void whatOperation(char ch, List<int> &stack, List<char> &func, List<Equation> &equation);
 
 int addition(int left, int right);
 
@@ -17,6 +17,10 @@ int multiplication(int left, int right);
 int division(int left, int right);
 
 int negation(int left);
+
+bool isEndBracket(char ch);
+
+void removeFromBrackets(List<Equation> &equation, List<char> &func);
 
 bool checkFunc(char ch);
 

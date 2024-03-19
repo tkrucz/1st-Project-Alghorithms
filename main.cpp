@@ -39,20 +39,24 @@ int main() {
         }
         cout << endl;
 
+        //COMPUTING
         while (equation.getSize() != 0) {
             Equation tmp = equation.remove_front();
             if (tmp.isNumber)
                 stack.push_front(tmp.nbr);
             else {
                 ch = tmp.func;
-                whatOperation(ch, stack);
+                whatOperation(ch, stack, func, equation);
             }
         }
-        cout << stack.remove_front() << endl;
-        cout << endl;
-        stack.clear();
-        equation.clear();
-        func.clear();
+
+        if (stack.getSize() != 0) {
+            cout << stack.remove_front() << endl;
+            cout << endl;
+            stack.clear();
+            equation.clear();
+            func.clear();
+        }
     }
     return 0;
 }

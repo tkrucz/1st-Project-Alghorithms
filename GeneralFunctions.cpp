@@ -10,7 +10,7 @@ void printing(List<int> &stack) {
     cout << endl;
 }
 
-void whatOperation(char ch, List<int> &stack) {
+void whatOperation(char ch, List<int> &stack, List<char> &func, List<Equation> &equation) {
     int left, right;
 
     cout << ch << ' ';
@@ -25,7 +25,14 @@ void whatOperation(char ch, List<int> &stack) {
     } else if (ch == MULTIPLICATION) {
         stack.push_front(multiplication(left, right));
     } else if (ch == DIVISION) {
-        stack.push_front(division(left, right));
+        if (left == 0) {
+            cout << "ERROR" << endl;
+            cout << endl;
+            stack.clear();
+            equation.clear();
+            func.clear();
+        } else
+            stack.push_front(division(left, right));
     }
 }
 
@@ -49,16 +56,35 @@ int negation(int left) {
     return -1 * left;
 }
 
+bool isEndBracket(char ch) {
+    if (ch == CLOSE_BRACKET)
+        return true;
+    else
+        return false;
+}
+
+void removeFromBrackets(List<Equation> &equation, List<char> &func) {
+    char tmp = func.getValue();
+    while (tmp != OPEN_BRACKET) {
+        tmp = func.remove_front();
+        if (tmp == OPEN_BRACKET || tmp == CLOSE_BRACKET)
+            break;
+        equation.push_back({0, tmp, false});
+        tmp = func.getValue();
+    }
+}
+
 bool checkFunc(char ch) {
     if (ch == PLUS || ch == MINUS || ch == MULTIPLICATION || ch == DIVISION
         || ch == NEGATION || ch == OPEN_BRACKET || ch == CLOSE_BRACKET)
         return true;
-    else return false;
+    else
+        return false;
 }
 
 void checkChPriority(char ch, int &chPri) {
     chPri = 0;
-    if (ch == NEGATION)
+    if (ch == NEGATION || ch == OPEN_BRACKET)
         chPri = MAX_PRIORITY;
     else if (ch == MULTIPLICATION || ch == DIVISION)
         chPri = MIDDLE_PRIORITY;
@@ -69,7 +95,7 @@ void checkChPriority(char ch, int &chPri) {
 void checkTopPriority(List<char> &func, int &topPri) {
     char top = func.getValue();
     topPri = 0;
-    if (top == NEGATION)
+    if (top == NEGATION || top == OPEN_BRACKET)
         topPri = MAX_PRIORITY;
     else if (top == MULTIPLICATION || top == DIVISION)
         topPri = MIDDLE_PRIORITY;
@@ -82,6 +108,8 @@ void checkPriority(char ch, List<Equation> &equation, List<char> &func, int &chP
     checkTopPriority(func, topPri);
     while (chPri < topPri || chPri == topPri) {
         char tmp = func.remove_front();
+        if (tmp == OPEN_BRACKET || tmp == CLOSE_BRACKET)
+            break;
         equation.push_back({0, tmp, false});
         if (func.getSize() == 0)
             break;
@@ -105,9 +133,11 @@ void whichList(char ch, List<Equation> &equation, List<char> &func, int &chPri, 
             wasDigit = false;
         }
     } else if (checkFunc(ch)) {
-        if (func.getSize() == 0)
+        if (func.getSize() == 0 || func.getValue() == OPEN_BRACKET)
             func.push_front(ch);
-        else
+        else if (isEndBracket(ch)) {
+            removeFromBrackets(equation, func);
+        } else
             checkPriority(ch, equation, func, chPri, topPri);
     }
 }

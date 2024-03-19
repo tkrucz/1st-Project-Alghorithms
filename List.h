@@ -48,10 +48,6 @@ public:
     List() : head(nullptr), tail(nullptr), size(0) {
     };
 
-    T &get_front() {
-        return head->value;
-    }
-
     void push_front(T newValue) {
         Node *newNode = new Node;
         newNode->value = newValue;
@@ -110,6 +106,9 @@ public:
             delete current;
             current = next;
         }
+        size = 0;
+        head = nullptr;
+        tail = nullptr;
     }
 
     ~List() {
