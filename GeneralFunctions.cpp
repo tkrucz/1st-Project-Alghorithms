@@ -90,23 +90,27 @@ bool checkFunc(char ch) {
 
 void checkChPriority(char ch, int &chPri) {
     chPri = 0;
-    if (ch == NEGATION || ch == OPEN_BRACKET)
+    if (ch == OPEN_BRACKET)
         chPri = MAX_PRIORITY;
-    else if (ch == MULTIPLICATION || ch == DIVISION)
+    else if (ch == NEGATION)
         chPri = MIDDLE_PRIORITY;
-    else
+    else if (ch == MULTIPLICATION || ch == DIVISION)
         chPri = LOW_PRIORITY;
+    else
+        chPri = ZERO_PRIORITY;
 }
 
 void checkTopPriority(List<char> &func, int &topPri) {
     char top = func.getValue();
     topPri = 0;
-    if (top == NEGATION || top == OPEN_BRACKET)
+    if (top == OPEN_BRACKET)
         topPri = MAX_PRIORITY;
-    else if (top == MULTIPLICATION || top == DIVISION)
+    else if (top == NEGATION)
         topPri = MIDDLE_PRIORITY;
-    else
+    else if (top == MULTIPLICATION || top == DIVISION)
         topPri = LOW_PRIORITY;
+    else
+        topPri = ZERO_PRIORITY;
 }
 
 void checkPriority(char ch, List<Equation> &equation, List<char> &func, int &chPri, int &topPri) {
@@ -114,7 +118,7 @@ void checkPriority(char ch, List<Equation> &equation, List<char> &func, int &chP
     checkTopPriority(func, topPri);
     while (chPri < topPri || chPri == topPri) {
         char tmp = func.remove_front();
-        if (tmp == NEGATION && !equation.getTailValue().isNumber) {
+        if (topPri == MAX_PRIORITY && chPri == MAX_PRIORITY || topPri == MIDDLE_PRIORITY && chPri == MIDDLE_PRIORITY) {
             func.push_front(tmp);
             break;
         }
@@ -145,10 +149,13 @@ void whichList(char ch, List<Equation> &equation, List<char> &func, int &chPri, 
             wasDigit = false;
         }
     } else if (checkFunc(ch)) {
-        if (func.getSize() == 0 || func.getValue() == OPEN_BRACKET)
+        if (func.getSize() == 0)
             func.push_front(ch);
         else if (isEndBracket(ch)) {
-            removeFromBrackets(equation, func);
+            if (func.getValue() == OPEN_BRACKET)
+                removeFromBrackets(equation, func);
+            else
+                removeFromBrackets(equation, func);
         } else
             checkPriority(ch, equation, func, chPri, topPri);
     }

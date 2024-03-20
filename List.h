@@ -99,7 +99,7 @@ public:
         return ret;
     }
 
-    T getTailValue(){
+    T getTailValue() {
         T ret;
         Node *tmp = tail;
         ret = tmp->value;
