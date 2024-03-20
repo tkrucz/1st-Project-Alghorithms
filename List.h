@@ -99,6 +99,13 @@ public:
         return ret;
     }
 
+    T getTailValue(){
+        T ret;
+        Node *tmp = tail;
+        ret = tmp->value;
+        return ret;
+    }
+
     void clear() {
         Node *current = head;
         while (current != nullptr) {

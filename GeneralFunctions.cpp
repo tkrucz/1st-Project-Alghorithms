@@ -16,23 +16,28 @@ void whatOperation(char ch, List<int> &stack, List<char> &func, List<Equation> &
     cout << ch << ' ';
     printing(stack);
 
-    left = stack.remove_front();
-    right = stack.remove_front();
-    if (ch == PLUS) {
-        stack.push_front(addition(left, right));
-    } else if (ch == MINUS) {
-        stack.push_front(subtraction(left, right));
-    } else if (ch == MULTIPLICATION) {
-        stack.push_front(multiplication(left, right));
-    } else if (ch == DIVISION) {
-        if (left == 0) {
-            cout << "ERROR" << endl;
-            cout << endl;
-            stack.clear();
-            equation.clear();
-            func.clear();
-        } else
-            stack.push_front(division(left, right));
+    if (ch == NEGATION) {
+        left = stack.remove_front();
+        stack.push_front(neg(left));
+    } else {
+        left = stack.remove_front();
+        right = stack.remove_front();
+        if (ch == PLUS) {
+            stack.push_front(addition(left, right));
+        } else if (ch == MINUS) {
+            stack.push_front(subtraction(left, right));
+        } else if (ch == MULTIPLICATION) {
+            stack.push_front(multiplication(left, right));
+        } else if (ch == DIVISION) {
+            if (left == 0) {
+                cout << "ERROR" << endl;
+                cout << endl;
+                stack.clear();
+                equation.clear();
+                func.clear();
+            } else
+                stack.push_front(division(left, right));
+        }
     }
 }
 
@@ -52,7 +57,7 @@ int division(int left, int right) {
     return right / left;
 }
 
-int negation(int left) {
+int neg(int left) {
     return -1 * left;
 }
 
@@ -109,6 +114,10 @@ void checkPriority(char ch, List<Equation> &equation, List<char> &func, int &chP
     checkTopPriority(func, topPri);
     while (chPri < topPri || chPri == topPri) {
         char tmp = func.remove_front();
+        if (tmp == NEGATION && !equation.getTailValue().isNumber) {
+            func.push_front(tmp);
+            break;
+        }
         if (tmp == OPEN_BRACKET || tmp == CLOSE_BRACKET) {
             func.push_front(tmp);
             break;

@@ -16,7 +16,7 @@ int multiplication(int left, int right);
 
 int division(int left, int right);
 
-int negation(int left);
+int neg(int left);
 
 bool isEndBracket(char ch);
 
