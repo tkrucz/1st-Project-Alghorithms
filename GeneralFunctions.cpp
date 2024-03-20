@@ -109,8 +109,10 @@ void checkPriority(char ch, List<Equation> &equation, List<char> &func, int &chP
     checkTopPriority(func, topPri);
     while (chPri < topPri || chPri == topPri) {
         char tmp = func.remove_front();
-        if (tmp == OPEN_BRACKET || tmp == CLOSE_BRACKET)
+        if (tmp == OPEN_BRACKET || tmp == CLOSE_BRACKET) {
+            func.push_front(tmp);
             break;
+        }
         equation.push_back({0, tmp, false});
         if (func.getSize() == 0)
             break;

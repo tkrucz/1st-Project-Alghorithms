@@ -94,11 +94,9 @@ public:
 
     T getValue() {
         T ret;
-        if (size != 0) {
-            Node *tmp = head;
-            ret = tmp->value;
-            return ret;
-        }
+        Node *tmp = head;
+        ret = tmp->value;
+        return ret;
     }
 
     void clear() {
