@@ -72,6 +72,7 @@ void removeFromBrackets(List<Equation> &equation, List<char> &func) {
         equation.push_back({0, tmp, false});
         tmp = func.getValue();
     }
+    func.remove_front();
 }
 
 bool checkFunc(char ch) {
