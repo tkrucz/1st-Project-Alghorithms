@@ -34,8 +34,12 @@ int main() {
         for (Equation item: equation) {
             if (item.isNumber)
                 cout << item.nbr << ' ';
-            else
+            else {
+                if(item.func == 'I')
+                    cout<<"IF" << ' ';
+                else
                 cout << item.func << ' ';
+            }
         }
         cout << endl;
 

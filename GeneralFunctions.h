@@ -18,6 +18,8 @@ int division(int left, int right);
 
 int neg(int left);
 
+int ifFunction(int left, int middle, int right);
+
 bool isEndBracket(char ch);
 
 void removeFromBrackets(List<Equation> &equation, List<char> &func);
