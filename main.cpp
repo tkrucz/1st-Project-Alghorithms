@@ -16,12 +16,12 @@ int main() {
 
     int chPri = 0, topPri = 0, finalNumber = 0;
     char ch;
-    bool wasDigit = false;
+    bool wasDigit = false, wasMin = false, wasMax = false;
 
     for (int i = 0; i < n; i++) {
         //GETTING INPUT
         while ((ch = (char) getchar()) != DOT) {
-            whichList(ch, equation, func, chPri, topPri, finalNumber, wasDigit);
+            whichList(ch, equation, func, chPri, topPri, finalNumber, wasDigit, wasMin, wasMax);
         }
 
         //END OF INPUT
@@ -35,10 +35,10 @@ int main() {
             if (item.isNumber)
                 cout << item.nbr << ' ';
             else {
-                if(item.func == 'I')
-                    cout<<"IF" << ' ';
+                if (item.func == 'I')
+                    cout << "IF" << ' ';
                 else
-                cout << item.func << ' ';
+                    cout << item.func << ' ';
             }
         }
         cout << endl;

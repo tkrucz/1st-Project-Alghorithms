@@ -4,7 +4,7 @@
 #include "List.h"
 #include "Define.cpp"
 
-void printing(List <int> &stack);
+void printing(List<int> &stack);
 
 void whatOperation(char ch, List<int> &stack, List<char> &func, List<Equation> &equation);
 
@@ -17,6 +17,10 @@ int multiplication(int left, int right);
 int division(int left, int right);
 
 int neg(int left);
+
+int min(int first, int second);
+
+int max(int first, int second);
 
 int ifFunction(int left, int middle, int right);
 
@@ -32,6 +36,7 @@ void checkTopPriority(List<char> &func, int &topPri);
 
 void checkPriority(char ch, List<Equation> &equation, List<char> &func, int &chPri, int &topPri);
 
-void whichList(char ch, List<Equation> &equation, List<char> &func, int &chPri, int &topPri, int &finalNumber, bool &wasDigit);
+void whichList(char ch, List<Equation> &equation, List<char> &func, int &chPri, int &topPri, int &finalNumber,
+               bool &wasDigit, bool &wasMin, bool &wasMax);
 
 #endif

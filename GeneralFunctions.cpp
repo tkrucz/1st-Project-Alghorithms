@@ -22,7 +22,7 @@ void whatOperation(char ch, List<int> &stack, List<char> &func, List<Equation> &
     if (ch == NEGATION) {
         left = stack.remove_front();
         stack.push_front(neg(left));
-    } else if (ch == 'I') {
+    } else if (ch == LETTER_I) {
         left = stack.remove_front();
         middle = stack.remove_front();
         right = stack.remove_front();
@@ -67,6 +67,20 @@ int division(int left, int right) {
 
 int neg(int left) {
     return -1 * left;
+}
+
+int min(int first, int second) {
+    if (first < second)
+        return first;
+    else
+        return second;
+}
+
+int max(int first, int second) {
+    if (first > second)
+        return first;
+    else
+        return second;
 }
 
 int ifFunction(int left, int middle, int right) {
@@ -149,7 +163,7 @@ void checkPriority(char ch, List<Equation> &equation, List<char> &func, int &chP
 }
 
 void whichList(char ch, List<Equation> &equation, List<char> &func, int &chPri, int &topPri, int &finalNumber,
-               bool &wasDigit) {
+               bool &wasDigit, bool &wasMin, bool &wasMax) {
     if ((ch >= '0' && ch <= '9') || ch == SPACE) {
         if (ch != SPACE) {
             int digit;
@@ -165,6 +179,13 @@ void whichList(char ch, List<Equation> &equation, List<char> &func, int &chPri, 
     } else if (checkFunc(ch)) {
         if (ch == LETTER_I)
             getchar();
+        if (ch == LETTER_M) {
+            char tmp = getchar();
+            if (tmp == LETTER_I)
+                wasMin = true;
+            else
+                wasMax = true;
+        }
         if (func.getSize() == 0)
             func.push_front(ch);
         else if (isEndBracket(ch)) {
