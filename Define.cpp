@@ -12,6 +12,7 @@
 #define MINUS 45
 #define DOT 46
 #define DIVISION 47
+#define LETTER_A 65
 #define LETTER_I 73
 #define LETTER_M 77
 #define NEGATION 78

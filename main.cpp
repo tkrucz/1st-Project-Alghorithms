@@ -10,6 +10,7 @@ int main() {
     List<int> stack; //List for numbers
     List<char> func; //List for operators
     List<Equation> equation; //List for postfix equation values
+    List<int> min_maxSize;
 
     int n; //number of formulas
     cin >> n;
@@ -21,7 +22,7 @@ int main() {
     for (int i = 0; i < n; i++) {
         //GETTING INPUT
         while ((ch = (char) getchar()) != DOT) {
-            whichList(ch, equation, func, chPri, topPri, finalNumber, wasDigit, wasMin, wasMax);
+            whichList(ch, equation, func, min_maxSize, chPri, topPri, finalNumber, wasDigit, wasMin, wasMax);
         }
 
         //END OF INPUT
@@ -35,8 +36,12 @@ int main() {
             if (item.isNumber)
                 cout << item.nbr << ' ';
             else {
-                if (item.func == 'I')
+                if (item.func == LETTER_I)
                     cout << "IF" << ' ';
+                else if (item.func == LETTER_A)
+                    cout << "MAX";
+                else if (item.func == 'i')
+                    cout << "MIN";
                 else
                     cout << item.func << ' ';
             }

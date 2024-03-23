@@ -24,9 +24,11 @@ int max(int first, int second);
 
 int ifFunction(int left, int middle, int right);
 
+void argumentCounter(char ch, List<int> &min_maxSize);
+
 bool isEndBracket(char ch);
 
-void removeFromBrackets(List<Equation> &equation, List<char> &func);
+void removeFromBrackets(List<Equation> &equation, List<char> &func, List<int> &min_maxSize, bool &wasMin, bool &wasMax);
 
 bool checkFunc(char ch);
 
@@ -36,7 +38,7 @@ void checkTopPriority(List<char> &func, int &topPri);
 
 void checkPriority(char ch, List<Equation> &equation, List<char> &func, int &chPri, int &topPri);
 
-void whichList(char ch, List<Equation> &equation, List<char> &func, int &chPri, int &topPri, int &finalNumber,
-               bool &wasDigit, bool &wasMin, bool &wasMax);
+void whichList(char ch, List<Equation> &equation, List<char> &func, List<int> &min_maxSize, int &chPri, int &topPri,
+               int &finalNumber, bool &wasDigit, bool &wasMin, bool &wasMax);
 
 #endif

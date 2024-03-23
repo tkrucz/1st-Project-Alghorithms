@@ -92,11 +92,8 @@ public:
         return size;
     }
 
-    T getValue() {
-        T ret;
-        Node *tmp = head;
-        ret = tmp->value;
-        return ret;
+    T &getValue() {
+        return head->value;
     }
 
     T getTailValue() {
