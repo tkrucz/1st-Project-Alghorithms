@@ -65,6 +65,7 @@ int main() {
             stack.clear();
             equation.clear();
             func.clear();
+            min_maxSize.clear();
         }
     }
     return 0;

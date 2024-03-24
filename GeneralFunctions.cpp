@@ -24,8 +24,7 @@ void whatOperation(char ch, List<int> &stack, List<char> &func, List<Equation> &
         size = equation.getValue().nbr;
         equation.remove_front();
         cout << "MIN" << size << ' ';
-    }
-    else
+    } else
         cout << ch << ' ';
     printing(stack);
 
@@ -35,9 +34,9 @@ void whatOperation(char ch, List<int> &stack, List<char> &func, List<Equation> &
     } else if ((ch == LETTER_A || ch == 'i') && size == 1) {
         left = stack.remove_front();
         if (ch == LETTER_A)
-            max(left, 0);
+            stack.push_front(max(left, 0));
         else
-            min(left, left + 1);
+            stack.push_front(min(left, left + 1));
     } else if (ch == LETTER_I) {
         left = stack.remove_front();
         middle = stack.remove_front();
@@ -67,8 +66,11 @@ void whatOperation(char ch, List<int> &stack, List<char> &func, List<Equation> &
             else {
                 for (int i = 0; i < size - 1; i++) {
                     stack.push_front(max(left, right));
-                    left = stack.remove_front();
-                    right = stack.remove_front();
+                    if (stack.getSize() > 1) {
+                        left = stack.remove_front();
+                        right = stack.remove_front();
+                    }
+                    else break;
                 }
             }
         } else if (ch == 'i') {
@@ -77,8 +79,11 @@ void whatOperation(char ch, List<int> &stack, List<char> &func, List<Equation> &
             else {
                 for (int i = 0; i < size - 1; i++) {
                     stack.push_front(min(left, right));
-                    left = stack.remove_front();
-                    right = stack.remove_front();
+                    if (stack.getSize() > 1) {
+                        left = stack.remove_front();
+                        right = stack.remove_front();
+                    }
+                    else break;
                 }
             }
         }
@@ -125,11 +130,14 @@ int ifFunction(int left, int middle, int right) {
     return left;
 }
 
-void argumentCounter(char ch, List<int> &min_maxSize) {
+void argumentCounter(char ch, List<int> &min_maxSize, bool &wasMin, bool &wasMax) {
     if (ch == COMMA)
         min_maxSize.getValue()++;
-    else if (ch == OPEN_BRACKET)
+    else if (ch == OPEN_BRACKET) {
         min_maxSize.push_front(1);
+        wasMin = false;
+        wasMax = false;
+    }
 }
 
 bool isEndBracket(char ch) {
@@ -148,7 +156,7 @@ removeFromBrackets(List<Equation> &equation, List<char> &func, List<int> &min_ma
         tmp = func.getValue();
     }
     func.remove_front();
-    if(func.getSize() != 0) {
+    if (func.getSize() != 0) {
         char &m = func.getValue();
         if (m == LETTER_A || m == 'i') {
             equation.push_back({0, m, false});
@@ -252,9 +260,11 @@ void whichList(char ch, List<Equation> &equation, List<char> &func, List<int> &m
         } else if (isEndBracket(ch)) {
             removeFromBrackets(equation, func, min_maxSize, wasMin, wasMax);
         } else if (wasMin || wasMax) {
-            argumentCounter(ch, min_maxSize);
+            argumentCounter(ch, min_maxSize,wasMin,wasMax);
             if (ch == OPEN_BRACKET)
                 func.push_front(ch);
+            else if (ch != LETTER_M )
+                checkPriority(ch,equation,func,chPri,topPri);
         } else
             checkPriority(ch, equation, func, chPri, topPri);
     }

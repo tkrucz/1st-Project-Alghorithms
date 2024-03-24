@@ -24,7 +24,7 @@ int max(int first, int second);
 
 int ifFunction(int left, int middle, int right);
 
-void argumentCounter(char ch, List<int> &min_maxSize);
+void argumentCounter(char ch, List<int> &min_maxSize, bool &wasMin, bool &wasMax);
 
 bool isEndBracket(char ch);
 
