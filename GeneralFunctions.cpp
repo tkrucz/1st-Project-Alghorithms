@@ -33,10 +33,7 @@ void whatOperation(char ch, List<int> &stack, List<char> &func, List<Equation> &
         stack.push_front(neg(left));
     } else if ((ch == LETTER_A || ch == 'i') && size == 1) {
         left = stack.remove_front();
-        if (ch == LETTER_A)
-            stack.push_front(max(left, 0));
-        else
-            stack.push_front(min(left, left + 1));
+        stack.push_front(left);
     } else if (ch == LETTER_I) {
         left = stack.remove_front();
         middle = stack.remove_front();
@@ -64,27 +61,19 @@ void whatOperation(char ch, List<int> &stack, List<char> &func, List<Equation> &
             if (size == 2)
                 stack.push_front(max(left, right));
             else {
-                for (int i = 0; i < size - 1; i++) {
-                    stack.push_front(max(left, right));
-                    if (stack.getSize() > 1) {
-                        left = stack.remove_front();
-                        right = stack.remove_front();
-                    }
-                    else break;
-                }
+                int maxValue = max(left, right);
+                for (int i = 0; i < size - 2; i++)
+                    maxValue = max(maxValue, stack.remove_front());
+                stack.push_front(maxValue);
             }
         } else if (ch == 'i') {
             if (size == 2)
                 stack.push_front(min(left, right));
             else {
-                for (int i = 0; i < size - 1; i++) {
-                    stack.push_front(min(left, right));
-                    if (stack.getSize() > 1) {
-                        left = stack.remove_front();
-                        right = stack.remove_front();
-                    }
-                    else break;
-                }
+                int minValue = min(left, right);
+                for (int i = 0; i < size - 2; i++)
+                    minValue = min(minValue, stack.remove_front());
+                stack.push_front(minValue);
             }
         }
     }
@@ -133,11 +122,8 @@ int ifFunction(int left, int middle, int right) {
 void argumentCounter(char ch, List<int> &min_maxSize, bool &wasMin, bool &wasMax) {
     if (ch == COMMA)
         min_maxSize.getValue()++;
-    else if (ch == OPEN_BRACKET) {
+    else if (ch == OPEN_BRACKET)
         min_maxSize.push_front(1);
-        wasMin = false;
-        wasMax = false;
-    }
 }
 
 bool isEndBracket(char ch) {
@@ -158,10 +144,10 @@ removeFromBrackets(List<Equation> &equation, List<char> &func, List<int> &min_ma
     func.remove_front();
     if (func.getSize() != 0) {
         char &m = func.getValue();
+        int size = min_maxSize.remove_front();
         if (m == LETTER_A || m == 'i') {
             equation.push_back({0, m, false});
             func.remove_front();
-            int size = min_maxSize.remove_front();
             equation.push_back({size, '0', true});
             wasMin = false;
             wasMax = false;
@@ -244,7 +230,6 @@ void whichList(char ch, List<Equation> &equation, List<char> &func, List<int> &m
         if (ch == LETTER_I)
             getchar();
         if (ch == LETTER_M) {
-            //func.push_front(ch);
             tmp = getchar();
             getchar();
             if (tmp == LETTER_I) {
@@ -254,18 +239,14 @@ void whichList(char ch, List<Equation> &equation, List<char> &func, List<int> &m
                 wasMax = true;
                 func.push_front(tmp);
             }
+            return;
         }
-        if (func.getSize() == 0 && ch != LETTER_M) {
+        argumentCounter(ch, min_maxSize, wasMin, wasMax);
+        if (func.getSize() == 0 && ch != LETTER_M)
             func.push_front(ch);
-        } else if (isEndBracket(ch)) {
+        else if (isEndBracket(ch))
             removeFromBrackets(equation, func, min_maxSize, wasMin, wasMax);
-        } else if (wasMin || wasMax) {
-            argumentCounter(ch, min_maxSize,wasMin,wasMax);
-            if (ch == OPEN_BRACKET)
-                func.push_front(ch);
-            else if (ch != LETTER_M )
-                checkPriority(ch,equation,func,chPri,topPri);
-        } else
+        else
             checkPriority(ch, equation, func, chPri, topPri);
     }
 }
